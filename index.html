@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>S. Sivaranjitha – Data Analyst</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #06080f;
+      --surface: #0d1120;
+      --card: #111827;
+      --accent: #818cf8;
+      --accent2: #22d3ee;
+      --green: #34d399;
+      --text: #f0f4ff;
+      --muted: #6b7280;
+      --border: #1e2a3a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 48px;
+      background: rgba(6,8,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .nav-links { display: flex; gap: 32px; }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 24px 60px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(129,140,248,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(129,140,248,0.1);
+      border: 1px solid rgba(129,140,248,0.25);
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .name {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #6366f1);
+      border: none;
+      border-radius: 10px;
+      padding: 13px 28px;
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 28px;
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); background: rgba(129,140,248,0.06); }
+
+    /* SCROLL INDICATOR */
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+    .scroll-dot {
+      width: 20px; height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 5px;
+    }
+    .scroll-dot::after {
+      content: '';
+      width: 4px; height: 8px;
+      background: var(--accent);
+      border-radius: 99px;
+      animation: scrollDown 1.8s infinite;
+    }
+    @keyframes scrollDown {
+      0%   { transform: translateY(0); opacity: 1; }
+      80%  { transform: translateY(10px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* SECTIONS */
+    section { padding: 80px 24px; }
+
+    .section-inner { max-width: 960px; margin: 0 auto; }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 48px;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-text p {
+      color: #9ca3af;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+    }
+
+    .about-info {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .info-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .info-icon {
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      background: rgba(129,140,248,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .info-detail .info-l { font-size: 0.72rem; color: var(--muted); margin-bottom: 1px; }
+    .info-detail .info-v { font-size: 0.88rem; font-weight: 500; }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .skill-icon { font-size: 1.5rem; margin-bottom: 10px; }
+    .skill-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; }
+    .skill-bar { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .skill-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+    .skill-level { font-size: 0.7rem; color: var(--muted); margin-top: 5px; }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 700px) { .projects-grid { grid-template-columns: 1fr; } }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+    .project-preview {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+    }
+    .project-preview.p1 { background: linear-gradient(135deg, #1a1040, #2d1b69); }
+    .project-preview.p2 { background: linear-gradient(135deg, #071524, #0c2a45); }
+
+    .project-body { padding: 20px; }
+
+    .project-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      font-size: 0.68rem;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 3px 9px;
+      border-radius: 99px;
+      background: rgba(129,140,248,0.12);
+      color: var(--accent);
+      border: 1px solid rgba(129,140,248,0.2);
+    }
+
+    .project-name { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .project-desc { font-size: 0.82rem; color: #9ca3af; line-height: 1.6; margin-bottom: 16px; }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+    .project-link:hover { gap: 10px; }
+
+    /* CONTACT */
+    .contact-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 52px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-box::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: 50%;
+      transform: translateX(-50%);
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .contact-box h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .contact-box p {
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-size: 0.9rem;
+    }
+
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(129,140,248,0.1);
+      border: 1px solid rgba(129,140,248,0.25);
+      border-radius: 10px;
+      padding: 12px 24px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .contact-email:hover { background: rgba(129,140,248,0.18); }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 28px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 auto;
+      max-width: 960px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">sivaranjitha.dev</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Available for opportunities</div>
+  <h1>Hi, I'm <span class="name">Sivaranjitha</span><br/>Data Analyst</h1>
+  <p class="hero-sub">
+    Passionate about turning raw data into meaningful insights. I work with Python, SQL, Excel, and Power BI to find patterns that drive better decisions.
+  </p>
+  <div class="hero-actions">
+    <a href="#projects" class="btn-primary">View My Work</a>
+    <a href="#contact" class="btn-outline">Get In Touch</a>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-dot"></div>
+    scroll
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">// about me</div>
+    <h2 class="section-title">Who I Am</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm S. Sivaranjitha, an aspiring Data Analyst with a strong foundation in data analysis and visualization. I enjoy working with data to uncover trends, solve real-world problems, and support data-driven decision making.
+        </p>
+        <p>
+          Currently deepening my skills in Python, SQL, and Power BI — building projects that reflect my analytical thinking and passion for insights.
+        </p>
+      </div>
+      <div class="about-info">
+        <div class="info-row">
+          <div class="info-icon">👩‍💻</div>
+          <div class="info-detail">
+            <div class="info-l">Name</div>
+            <div class="info-v">S. Sivaranjitha</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">📧</div>
+          <div class="info-detail">
+            <div class="info-l">Email</div>
+            <div class="info-v">sivaranjitha820@gmail.com</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">📊</div>
+          <div class="info-detail">
+            <div class="info-l">Focus</div>
+            <div class="info-v">Data Analysis & Visualization</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">🌱</div>
+          <div class="info-detail">
+            <div class="info-l">Currently Learning</div>
+            <div class="info-v">Advanced Python & Power BI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label">// tools & skills</div>
+    <h2 class="section-title">What I Work With</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">🐍</div>
+        <div class="skill-name">Python</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+        <div class="skill-level">Pandas · NumPy · Matplotlib</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🗄️</div>
+        <div class="skill-name">SQL</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+        <div class="skill-level">Queries · Joins · Aggregations</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📊</div>
+        <div class="skill-name">Power BI</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
+        <div class="skill-level">Dashboards · DAX · Reports</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📗</div>
+        <div class="skill-name">Excel</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+        <div class="skill-level">Pivot Tables · VLOOKUP · Charts</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">// my work</div>
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-preview p1">⚡</div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+          </div>
+          <div class="project-name">TaskFlow – Todo App</div>
+          <div class="project-desc">
+            A clean, priority-based task manager with real-time stats, progress tracking, and filter views. Built with vanilla JS and localStorage.
+          </div>
+          <a href="todo-app/index.html" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-preview p2">📊</div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">Chart.js</span>
+            <span class="tag">Data Viz</span>
+          </div>
+          <div class="project-name">DataPulse – Analytics Dashboard</div>
+          <div class="project-desc">
+            An interactive analytics dashboard featuring KPI cards, revenue trend charts, traffic source breakdowns, and project progress tracking.
+          </div>
+          <a href="data-dashboard/index.html" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">// let's connect</div>
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="contact-box">
+      <h3>Open to Opportunities 👋</h3>
+      <p>Looking for internships, entry-level data analyst roles, or freelance projects.<br/>Feel free to reach out!</p>
+      <a href="mailto:sivaranjitha820@gmail.com" class="contact-email">
+        📧 sivaranjitha820@gmail.com
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Designed & Built by S. Sivaranjitha · 2025</p>
+</footer>
+
+</body>
+</html>
